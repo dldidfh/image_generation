@@ -11,8 +11,8 @@ name_space = ['origin', 'flip']
 temp_add_image = np.zeros((300,300))
 temp_sub_image = np.zeros((300,300))
 # for x in range(2):
-for i in range(4):
-    for j in range(3):
+for i in range(3):
+    for j in range(4):
         if i==0 and j == 0:
             three_add_image = image
             three_sub_image = image
