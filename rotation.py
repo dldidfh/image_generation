@@ -12,8 +12,8 @@ for x in range(2):
     temp_image = np.zeros((300,300))
     if x == 1:
         image = cv2.flip(image, 1)
-    for i in range(3):
-        for j in range(4):
+    for i in range(4):
+        for j in range(3):
             if i== 0 and j == 0 :
                 three_images = image
                 continue
