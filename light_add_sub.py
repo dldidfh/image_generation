@@ -2,6 +2,7 @@ import cv2
 import os
 import numpy as np
 import shutil
+
 image_path = './test2.jpg'
 gt_path = './test2.txt'
 trans_gt_add_save_path = './add_result.txt'
@@ -23,10 +24,6 @@ with open(gt_path) as fd:
         center_y = float(box[2]) * h  / resize_rate_height
         box_width = float(box[3]) * w / resize_rate_width
         box_height = float(box[4]) * h / resize_rate_height
-        # min_x = int((center_x - box_width / 2)    / resize_rate_width)
-        # min_y = int((center_y - box_height / 2)  / resize_rate_height)
-        # max_x = int((center_x + box_width / 2)   / resize_rate_width)
-        # max_y = int((center_y + box_height / 2)  / resize_rate_height)
         ground_truth_list.append([class_num,center_x,center_y,box_width,box_height])
 temp_add_image = np.zeros((300,300))
 temp_sub_image = np.zeros((300,300))
