@@ -1,2 +1,4 @@
-images/
+annotations/
 aug_outputs/
+test.py
+rotation.py
