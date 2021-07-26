@@ -2,3 +2,4 @@ annotations/
 aug_outputs/
 test.py
 rotation.py
+data_backup/
