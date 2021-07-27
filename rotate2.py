@@ -39,6 +39,8 @@ def rotation_mosaic(image, origin_ground_truth_list, count, image_batch_size):
                 rotate_box_height = round(box_1.height / (image_batch_size[1] * resize_pactor[1]), 6)
                 rotate_center_x = round(((box_1.center_x + resize_pactor[0]*num_2) / (image_batch_size[0] * resize_pactor[0])) , 6)
                 rotate_center_y = round(((box_1.center_y + resize_pactor[1]*num_1) / (image_batch_size[1] * resize_pactor[1])) ,6)
+                if rotate_box_height < 0.03 and rotate_box_width < 0.03:
+                    continue
                 result_box.append([
                     box_1.label, rotate_center_x, rotate_center_y, rotate_box_width, rotate_box_height
                 ])

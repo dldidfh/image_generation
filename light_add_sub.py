@@ -31,15 +31,19 @@ def light_add_and_sub(image, origin_ground_truth_list, count, image_batch_size):
                 box_height = origin_ground_truth_list[gt_index ][4]  - origin_ground_truth_list[gt_index ][2] 
                 center_x = origin_ground_truth_list[gt_index ][1] + box_width/2
                 center_y = origin_ground_truth_list[gt_index ][2] + box_height/2 
+
+                box_width = round(box_width / (image_batch_size[0] * resize_pactor[0]) ,6)
+                box_height = round(box_height / (image_batch_size[1] * resize_pactor[1]) ,6)
+                center_x = round((center_x + resize_pactor[0]*num_2 ) / (image_batch_size[0] * resize_pactor[0]) , 6)
+                center_y = round((center_y + resize_pactor[1]*num_1 ) / (image_batch_size[1] * resize_pactor[1]) , 6)
+                if box_width < 0.02 and box_height < 0.02:
+                    continue
                 result_box.append([
                         origin_ground_truth_list[gt_index ][0], 
-                            # rotate_center_x = round(((box_1.center_x + resize_pactor[0]*num_2) / (image_batch_size[0] * resize_pactor[0])) , 6)
-                            # rotate_center_y = round(((box_1.center_y + resize_pactor[1]*num_1) / (image_batch_size[1] * resize_pactor[1])) ,6)
-                        round((center_x + resize_pactor[0]*num_2 ) / (image_batch_size[0] * resize_pactor[0]) , 6),
-                        round((center_y + resize_pactor[1]*num_1 ) / (image_batch_size[1] * resize_pactor[1]) , 6),
-                        # (origin_ground_truth_list[gt_index][2] + resize_pactor[1]*num_1),
-                        round(box_width / (image_batch_size[0] * resize_pactor[0]) ,6),
-                        round(box_height / (image_batch_size[1] * resize_pactor[1]) ,6),
+                        center_x,
+                        center_y,
+                        box_width,
+                        box_height,
                     ])
             
             val = index * 2
@@ -52,31 +56,12 @@ def light_add_and_sub(image, origin_ground_truth_list, count, image_batch_size):
                 image = cv2.subtract(image, array)
             if num_2 != 0:
                 three_image = np.concatenate((three_image,image), axis=1)
-                # three_sub_image = np.concatenate((three_sub_image,image), axis=1)
             else:
                 three_image = image
-                # three_sub_image = image
 
         if num_1 == 0 :
             twelve_images = three_image
-            # temp_sub_image = three_sub_image
         else :
             twelve_images = np.concatenate((twelve_images, three_image), axis=0)
-            # temp_sub_image = np.concatenate((temp_sub_image, three_sub_image), axis=0)
     return twelve_images, result_box
 
-    # cv2.imwrite('add_result'+'.jpg', twelve_images)
-    # cv2.imwrite('sub_result'+'.jpg', temp_sub_image)
-    # resize_h, resize_w = twelve_images.shape[:2]
-
-    # with open(trans_gt_add_save_path, 'w') as wd:
-    #     for lines in ground_truth_list:
-    #         string = "{} {} {} {} {}\n".format(
-    #             lines[0], 
-    #             round(lines[1] / resize_w , 6), 
-    #             round(lines[2] / resize_h,6),
-    #             round(lines[3] / resize_w,6),
-    #             round(lines[4] / resize_h,6),
-    #         )
-    #         d = wd.write(string)
-    # shutil.copy(trans_gt_add_save_path, trans_gt_sub_save_path)
