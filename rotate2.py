@@ -33,6 +33,7 @@ def rotation_mosaic(image, origin_ground_truth_list, count, image_batch_size):
                     iaa.Affine(rotate=degree),
                 ])
             image_aug, bbs_aug = seq(image=image, bounding_boxes=bbs)
+            bbs_aug = bbs_aug.remove_out_of_image().clip_out_of_image()
             # 바운딩박스 좌표값 수정해서 새로운 배열에 추가 
             for box_1 in bbs_aug:
                 rotate_box_width = round(box_1.width / (image_batch_size[0] * resize_pactor[0]),6)

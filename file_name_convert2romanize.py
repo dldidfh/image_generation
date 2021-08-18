@@ -8,10 +8,10 @@ transliter = Transliter(academic)
 # print(transliter.translit(u'안녕하세요'))
 
 path = './annotations/'
-aug_path = './aug_outputs/'
+# path = './aug_outputs/'
 test_path = './path_test/'
 
-file_names = os.listdir(aug_path)
+file_names = os.listdir(path)
 
 for file_name in file_names:
     copy_file_name = file_name
@@ -26,4 +26,16 @@ for file_name in file_names:
             elif find_word == '비':
                 file_name = file_name.replace(find_word, 'raining')
     romanized_word = transliter.translit(file_name)
-    shutil.move(aug_path+copy_file_name,aug_path+romanized_word)
+
+    spec_word = ['-','(',')','JPG']
+    for word in spec_word:
+        word_index = romanized_word.find(word)
+        if word_index != -1:
+            find_word = romanized_word[word_index:word_index+len(word)]
+            if find_word == 'JPG':
+                romanized_word = romanized_word.replace(find_word,'jpg')
+            else :
+                romanized_word = romanized_word.replace(find_word,'')
+
+    shutil.move(path+copy_file_name,path+romanized_word)
+
